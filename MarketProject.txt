@@ -1,0 +1,118 @@
+<!--PROJECT SQL DATABASE
+=====================================================
+    Crear una base de datos llamada form
+    esta tendra las tablas 
+    users (userID, nombre, apellido, fecha de nacimiento, edad, created_at (TimeStamp))
+    contact_form (ID, numero de telefono, email, mensaje, created_at (TimeStamp))
+    products(productID, nombre, precio, created_at (TimeStamp))
+    orders (orderID, productID (Foreign Key), created_at (TimeStamp))
+
+    1) Crear 4 datos falsos para cada tabla e insertarlos en sus respectivas tablas.
+    2) Realizar un llamado que solo contenga el userID y nombre de cada usuario.
+    3) Realizar un llamado donde solo se traiga a los usuarios mayores de 40 a,os
+    4) Crear una validacion para que un usuario no pueda tener menos de 18 a,os
+    5) traer una relacion de cada orden con su producto
+    6) eliminar todos los usuarios mayores a 50 a,os
+    7) Actualizar todos los precios de los productos y darles un descuento del 15%
+-->
+================================================
+CREATE DATABASE market
+
+1) Crear 4 datos falsos para cada tabla e insertarlos en sus respectivas tablas.
+
+CREATE TABLE users (
+	userID BIGINT(255) NOT NULL AUTO_INCREMENT,
+	name VARCHAR(255),
+	lastname VARCHAR(255),
+	dob DATE(YYYY-MM-DD),
+	create_at TIMESTAMP DEFAULT CURRENT TIMESTAMP
+	PRIMARY KEY (userID),
+)
+CREATE TABLE users( userID BIGINT(255) NOT NULL AUTO_INCREMENT, name VARCHAR(255), lastname VARCHAR(255), dob DATE, create_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, PRIMARY KEY (userID) ),
+
+CREATE TABLE contact_form (
+	ID BIGINT(255) NOT NULL AUTO_INCREMENT,   
+	phoneNumber VARCHAR(20),
+	email VARCHAR(255),
+	message VARCHAR (1500),
+	create_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+	PRIMARY KEY (ID)
+)
+CREATE TABLE contact_form ( ID BIGINT(255) NOT NULL AUTO_INCREMENT, phoneNumber VARCHAR(20), email VARCHAR(255), message VARCHAR (1500), create_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, PRIMARY KEY (ID) ),
+
+CREATE TABLE products (
+	product_id BIGINT(255) NOT NULL AUTO_INCREMENT, 
+	product_name VARCHAR(255),
+	price FLOAT(255,2),
+	currency CHAR(3),
+	create_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+	PRIMARY KEY(product_id)
+)
+CREATE TABLE products ( product_id BIGINT(255) NOT NULL AUTO_INCREMENT, product_name VARCHAR(255), price FLOAT(255,2), currency CHAR(3), create_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, PRIMARY KEY(product_id) );
+
+CREATE TABLE orders(
+	order_id INT(255) NOT NULL AUTO_INCREMENT,
+	product_id BIGINT(255) NOT NULL, 
+	PRIMARY KEY(order_id),
+	FOREIGN KEY(product_id) REFERENCES products(product_id)
+
+=======================================================================================================
+2) Realizar un llamado que solo contenga el userID y nombre de cada usuario.
+SELECT userID, name FROM users
+
+
+=======================================================================================================
+3) Realizar un llamado donde solo se traiga a los usuarios mayores de 40 a,os
+- Como mi tabla no tiene edad primero lo voy a
+SELECT * FROM users 
+WHERE age > 40
+
+SELECT * FROM users WHERE age > 40;
+
+=======================================================================================================
+4) Crear una validacion para que un usuario no pueda tener menos de 18 a,os
+ALTER TABLE users
+ADD CHECK (age>=18);
+
+=======================================================================================================
+5) Traer una relacion de cada orden con su producto
+SELECT products.product_id, orders.order_id
+FROM products
+LEFT JOIN orders
+ON products.product_id=orders.product_id
+
+SELECT products.product_id, orders.order_id FROM products LEFT JOIN orders ON products.product_id=orders.product_id;
+
+=======================================================================================================
+6) eliminar todos los usuarios mayores a 50 a,os
+DELETE FROM users
+WHERE age>50
+
+DELETE FROM users WHERE age>50;
+
+=======================================================================================================
+7) Actualizar todos los precios de los productos y darles un descuento del 15%
+UPDATE TABLE products
+SET price=price*0.85
+
+UPDATE products SET price=price*0.85;
+
+
+
+	
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
